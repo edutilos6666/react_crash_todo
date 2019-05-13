@@ -16,7 +16,6 @@ import CommentDetailsPage from './components/pages/comments/CommentDetailsPage';
 import PhotosPage from './components/pages/PhotosPage';
 import UsersPage from './components/pages/UsersPage';
 import ReactBootstrapPage from './components/pages/ReactBootstrapPage';
-import LoginPage from './components/pages/LoginPage';
 import UserHomePage from './components/pages/UserHomePage';
 import LoginTabPanePage from './components/pages/LoginTabPanePage';
 

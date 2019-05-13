@@ -41,7 +41,7 @@ class LoginTabPanePage extends Component {
         const loginCorrect = this.state.users.filter(one => one.username === username && one.password === password).length > 0;
         if(loginCorrect) {
             this.props.history.push('/user-home/'+ username, 
-                {response:  this.state.users});
+                {users:  this.state.users});
         }
     }
 

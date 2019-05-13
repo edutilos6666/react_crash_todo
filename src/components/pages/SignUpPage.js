@@ -2,9 +2,19 @@ import React, {Component} from 'react';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
-import { assignmentExpression } from '@babel/types';
+
+
+const ENTER = 13;
 
 class SignUpPage extends Component {
+    constructor(props) {
+        super(props);
+        this.firstNameRef = React.createRef();
+        this.lastNameRef = React.createRef();
+        this.usernameRef = React.createRef();
+        this.passwordRef = React.createRef();
+        this.passwordRepeatRef = React.createRef();
+    }
     state = {
         firstName: "",
         lastName: "",
@@ -13,7 +23,35 @@ class SignUpPage extends Component {
         passwordRepeat: ""
     }
 
+    componentDidMount() {
+        this.firstNameRef.current.focus();
+    }
+
     onChange = (e)=> this.setState({ [e.target.name]: e.target.value})
+
+    handleEnterPressed = (e) => {
+        if(e.keyCode === ENTER || e.which === ENTER) {
+            switch(e.target.name) {
+                case "firstName":
+                  this.lastNameRef.current.focus();
+                  break;
+                case "lastName":
+                  this.usernameRef.current.focus();
+                  break;
+                case "username":
+                  this.passwordRef.current.focus();
+                  break;
+                case "password":
+                  this.passwordRepeatRef.current.focus();
+                  break;
+                case "passwordRepeat":
+                  this.handleSignUp();
+                  break;
+                default:
+                  break;
+            }
+        }
+    }
    
     handleSignUp = () => {
         const {firstName, lastName, username, password, passwordRepeat} = this.state;
@@ -51,6 +89,8 @@ class SignUpPage extends Component {
                         onChange={this.onChange}
                         value={this.state.firstName}
                         name="firstName"
+                        ref = {this.firstNameRef}
+                        onKeyPress={this.handleEnterPressed}
                     />
                 </InputGroup>
 
@@ -65,6 +105,8 @@ class SignUpPage extends Component {
                         onChange={this.onChange}
                         value={this.state.lastName}
                         name="lastName"
+                        ref = {this.lastNameRef}
+                        onKeyPress={this.handleEnterPressed}
                     />
                 </InputGroup>
 
@@ -79,6 +121,8 @@ class SignUpPage extends Component {
                         onChange={this.onChange}
                         value={this.state.username}
                         name="username"
+                        ref = {this.usernameRef}
+                        onKeyPress={this.handleEnterPressed}
                     />
                 </InputGroup>
 
@@ -94,6 +138,8 @@ class SignUpPage extends Component {
                       onChange={this.onChange}
                       value={this.state.password}
                       name="password"
+                      ref = {this.passwordRef}
+                      onKeyPress={this.handleEnterPressed}
                     />
                 </InputGroup>
 
@@ -109,6 +155,8 @@ class SignUpPage extends Component {
                       onChange={this.onChange}
                       value={this.state.passwordRepeat}
                       name="passwordRepeat"
+                      ref = {this.passwordRepeatRef}
+                      onKeyPress={this.handleEnterPressed}
                     />
                 </InputGroup>
                 <Button variant="primary" size="lg" onClick={this.handleSignUp}>Sign Up</Button>

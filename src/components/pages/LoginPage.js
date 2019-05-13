@@ -2,27 +2,44 @@ import React, {Component} from 'react';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
+import PropTypes from 'prop-types';
+
+
+const ENTER = 13;
 
 class LoginPage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.inputUsernameRef = React.createRef();
+        this.inputPasswordRef = React.createRef();
+    }
     state = {
             username: "", 
             password: ''
     }
-    // handleLogin = () => {
-    //     console.log("handleLogin()");
-    //     const username = this.state.username;
-    //     const password = this.state.password;
-    //     const firstUser = username === "test" && password === "test";
-    //     const secondUser = username === "leo" && password === "leo";
-    //     if(firstUser || secondUser) {
-    //         this.props.history.push('/user-home/'+ username);
-    //     }
-    // }
+
+    componentDidMount() {
+        this.inputUsernameRef.current.focus();
+    }
+
+
     handleClear = () => {
         this.setState({
                 username: "",
                 password: ""
         })
+    }
+
+    handleEnterPressed = (e) => {
+        const name = e.target.name;
+        if(e.keyCode === ENTER || e.which === ENTER) {
+            if(name === "username") {
+                this.inputPasswordRef.current.focus();
+            } else if(name === "password") {
+                this.props.handleLogin(this.state.username, this.state.password);
+            }
+        }
     }
 
     onChange = (e)=>  this.setState({ [e.target.name]: e.target.value})
@@ -41,6 +58,8 @@ class LoginPage extends Component {
                     onChange={this.onChange}
                     value={this.state.username}
                     name="username"
+                    onKeyPress = {this.handleEnterPressed}
+                    ref = {this.inputUsernameRef}
                 />
                 </InputGroup>
 
@@ -56,6 +75,8 @@ class LoginPage extends Component {
                     onChange={this.onChange}
                     value={this.state.password}
                     name="password"
+                    onKeyPress = {this.handleEnterPressed}
+                    ref = {this.inputPasswordRef}
                   />
                 </InputGroup>
                 <Button variant="primary" size="lg" onClick={() => this.props.handleLogin(this.state.username, this.state.password)}>Login</Button>
@@ -64,5 +85,12 @@ class LoginPage extends Component {
         );
     }
 }
+
+
+
+LoginPage.propTypes = {
+    handleLogin: PropTypes.func.isRequired
+}
+
 
 export default LoginPage;

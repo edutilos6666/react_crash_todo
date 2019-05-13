@@ -1,5 +1,6 @@
 import React , {Component} from 'react';
 import Table from 'react-bootstrap/Table';
+import Calculator from '../calculator/Calculator';
 
 class UserHomePage extends Component {
     state = {
@@ -8,7 +9,7 @@ class UserHomePage extends Component {
 
     componentDidMount() {
         const {username} = this.props.match.params;
-        const users = this.props.location.state.response;
+        const users = this.props.location.state.users;
 
         const loggedUser = users.filter(one => one.username === username)[0];
 
@@ -40,6 +41,8 @@ class UserHomePage extends Component {
                         </tr>
                     </tbody>
                 </Table>
+                <br/>
+                <Calculator />
             </React.Fragment>
         );
     }
