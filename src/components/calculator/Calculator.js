@@ -3,9 +3,9 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import FormControl from 'react-bootstrap/FormControl'
-import Button from 'react-bootstrap/Button';
 import CalculatorButton from './CalculatorButton';
 import FormLabel from 'react-bootstrap/FormLabel';
+import Alert from 'react-bootstrap/Alert';
 
 
 const BTN_AC_TEXT = "AC";
@@ -33,6 +33,18 @@ class Calculator extends Component {
     constructor(props) {
         super(props);
         this.displayAreaRef = React.createRef();
+        this.evalError = "Eval Error";
+    }
+
+    state = {
+        show: false
+    }
+
+    handleAlertClose = (e) => {
+        this.setState({
+            show: false
+        });
+        this.displayAreaRef.current.value = "";
     }
 
     handleBtnClicked = (e) => {
@@ -54,6 +66,7 @@ class Calculator extends Component {
                 break;
             case BTN_MODULO_TEXT:
             case BTN_DIVIDE_TEXT:
+            case BTN_MULTIPLY_TEXT:
             case BTN_SUBTRACT_TEXT:
             case BTN_ADD_TEXT:
                 displayArea.value = displayArea.value + " "+ buttonText + " ";
@@ -62,13 +75,22 @@ class Calculator extends Component {
                 try {
                     const res = eval(displayArea.value);
                     displayArea.value = displayArea.value + " " + buttonText + " " + res;
-                } catch(ex) {
-                    console.log(ex);
+                } catch(err) {
+                    this.evalError = err.message;
+                    this.setState({
+                        show: true
+                    });
                 }
                 break;
             case BTN_AC_TEXT:
-            case BTN_CE_TEXT:
                 displayArea.value = "";
+                break;
+            case BTN_CE_TEXT:
+                var substringIndex = 1;
+                if(displayArea.value.endsWith(" ")) {
+                    substringIndex = 3;
+                }
+                displayArea.value = displayArea.value.substring(0, displayArea.value.length - substringIndex);
                 break;
 
         }
@@ -94,6 +116,14 @@ class Calculator extends Component {
                       ref = {this.displayAreaRef}
                       style={this.titleStyle}
                       />
+                    </Col>
+                </Row>
+                <br/>
+                <Row>
+                    <Col>
+                        <Alert show={this.state.show} dismissible variant="warning" onClose={this.handleAlertClose}>
+                        {this.evalError}
+                        </Alert>
                     </Col>
                 </Row>
                 <br/>

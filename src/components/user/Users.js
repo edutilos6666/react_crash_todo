@@ -16,7 +16,7 @@ class Users extends Component {
                     </thead>
                     <tbody>
                         {this.props.users.map((one)=> (
-                        <UserItem user={one} />
+                        <UserItem key={one.id} user={one} />
                         ))}
                     </tbody>
                 </table>

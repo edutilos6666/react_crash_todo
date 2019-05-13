@@ -3,31 +3,41 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
-
+import Alert from 'react-bootstrap/Alert';
 
 const ENTER = 13;
 
 class LoginPage extends Component {
     constructor(props) {
         super(props);
-
         this.inputUsernameRef = React.createRef();
         this.inputPasswordRef = React.createRef();
     }
     state = {
             username: "", 
-            password: ''
+            password: '', 
+            show: false
     }
 
     componentDidMount() {
         this.inputUsernameRef.current.focus();
     }
 
+    handleAlertClose = () => { 
+        this.setState({
+            username: this.state.username,
+            password: this.state.password,
+            show : false
+        });
+        this.handleClear();
+    }
+
 
     handleClear = () => {
         this.setState({
                 username: "",
-                password: ""
+                password: "", 
+                show: false
         })
     }
 
@@ -37,8 +47,21 @@ class LoginPage extends Component {
             if(name === "username") {
                 this.inputPasswordRef.current.focus();
             } else if(name === "password") {
-                this.props.handleLogin(this.state.username, this.state.password);
+                this.handleLoginEnhanced(e);
             }
+        }
+    }
+
+    handleLoginEnhanced = (e) => {
+        const username = this.state.username;
+        const password = this.state.password;
+        const loginResult = this.props.handleLogin(username, password);
+        if(!loginResult) {
+            this.setState({
+                username: this.state.username,
+                password: this.state.password,
+                show: true
+            });
         }
     }
 
@@ -79,8 +102,12 @@ class LoginPage extends Component {
                     ref = {this.inputPasswordRef}
                   />
                 </InputGroup>
-                <Button variant="primary" size="lg" onClick={() => this.props.handleLogin(this.state.username, this.state.password)}>Login</Button>
+                <Button variant="primary" size="lg" onClick={(e) => this.handleLoginEnhanced(e)}>Login</Button>
                 <Button variant="secondary" size="lg" onClick={this.handleClear}>Clear</Button>
+                <br/><br/>
+                <Alert show={this.state.show} dismissible variant="danger" onClose={this.handleAlertClose}>
+                    Username and/or Password is not correct.
+                </Alert>
             </React.Fragment>
         );
     }

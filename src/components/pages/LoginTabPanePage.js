@@ -42,7 +42,9 @@ class LoginTabPanePage extends Component {
         if(loginCorrect) {
             this.props.history.push('/user-home/'+ username, 
                 {users:  this.state.users});
+            return true;
         }
+        return false;
     }
 
 
