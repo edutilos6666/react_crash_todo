@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import NavItem from 'react-bootstrap/NavItem';
 import {NavLink as RDNavLink} from 'react-router-dom';
 import {LinkContainer} from 'react-router-bootstrap';
+import Knight from '../chessboard/Knight';
 
 function Header() {
   return (
@@ -38,6 +39,9 @@ function Header() {
         </LinkContainer>
         <LinkContainer to="/login">
           <NavLink>Login</NavLink>
+        </LinkContainer>
+        <LinkContainer to="/chessboard">
+          <NavLink>Chessboard</NavLink>
         </LinkContainer>
       </Nav>
       <Form inline>

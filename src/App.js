@@ -18,6 +18,7 @@ import UsersPage from './components/pages/UsersPage';
 import ReactBootstrapPage from './components/pages/ReactBootstrapPage';
 import UserHomePage from './components/pages/UserHomePage';
 import LoginTabPanePage from './components/pages/LoginTabPanePage';
+import ChessGame from './components/chessboard/ChessGame';
 
 
 class App extends Component {
@@ -84,6 +85,7 @@ class App extends Component {
             <Route exact path="/bootstrap" component={ReactBootstrapPage} />
             <Route exact path="/login" component={LoginTabPanePage} />
             <Route exact path="/user-home/:username" component={UserHomePage} />
+            <Route exact path="/chessboard" component={ChessGame} />
           </div>  
         </div>
       </Router>
